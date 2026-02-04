@@ -18,11 +18,10 @@
 
     .card {
       background: white;
-      padding: 40px;
+      padding: 40px 50px;
       border-radius: 25px;
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      position: relative;
       z-index: 2;
     }
 
@@ -31,8 +30,16 @@
       margin-bottom: 30px;
     }
 
+    /* Buttons container */
+    .buttons {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      align-items: center;
+    }
+
     #yesBtn {
-      padding: 14px 26px;
+      padding: 14px 28px;
       border: none;
       border-radius: 30px;
       background: #ff4d6d;
@@ -41,56 +48,40 @@
       cursor: pointer;
     }
 
-    /* --- NO CARTOON CHARACTER --- */
+    /* -------- CARTOON NO -------- */
 
     #noCharacter {
-      position: fixed;
-      left: 60%;
-      top: 60%;
-      z-index: 9999;
-      transition: left 0.4s ease, top 0.4s ease;
+      position: relative; /* starts beside YES */
     }
 
     #noBtn {
       background: #9e9e9e;
       border: none;
       border-radius: 30px;
-      padding: 14px 22px;
-      font-size: 15px;
+      padding: 14px 26px;
+      font-size: 16px;
       cursor: pointer;
     }
-
-    /* hands */
-    .hand {
-      width: 10px;
-      height: 10px;
-      background: #777;
-      border-radius: 50%;
-      position: absolute;
-      top: 18px;
-    }
-
-    .hand.left { left: -14px; }
-    .hand.right { right: -14px; }
 
     /* legs */
     .legs {
       display: flex;
       justify-content: space-between;
-      width: 40px;
+      width: 26px;
       margin: auto;
+      margin-top: 2px;
     }
 
     .leg {
-      width: 6px;
-      height: 16px;
+      width: 4px;
+      height: 14px;
       background: #555;
-      border-radius: 4px;
-      animation: run 0.3s infinite alternate;
+      border-radius: 3px;
+      animation: run 0.25s infinite alternate;
     }
 
-    .leg.right {
-      animation-delay: 0.15s;
+    .leg:nth-child(2) {
+      animation-delay: 0.12s;
     }
 
     @keyframes run {
@@ -104,19 +95,17 @@
 
   <div class="card" id="card">
     <h1>Will you be my Valentine,<br>Anandhuuu? 💌</h1>
-    <button id="yesBtn">Yes 💖</button>
-  </div>
 
-  <!-- NO Cartoon -->
-  <div id="noCharacter">
-    <div class="hand left"></div>
-    <div class="hand right"></div>
+    <div class="buttons">
+      <button id="yesBtn">Yes 💖</button>
 
-    <button id="noBtn">NO Anandhuuu 🙅‍♂️</button>
-
-    <div class="legs">
-      <div class="leg left"></div>
-      <div class="leg right"></div>
+      <div id="noCharacter">
+        <button id="noBtn">NO</button>
+        <div class="legs">
+          <div class="leg"></div>
+          <div class="leg"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -125,20 +114,25 @@
     const yesBtn = document.getElementById("yesBtn");
     const card = document.getElementById("card");
 
+    // Make NO run away
     noChar.addEventListener("mouseenter", () => {
-      const x = Math.random() * (window.innerWidth - 150);
-      const y = Math.random() * (window.innerHeight - 150);
+      noChar.style.position = "fixed";
+
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 120);
 
       noChar.style.left = `${x}px`;
       noChar.style.top = `${y}px`;
     });
 
+    // YES click
     yesBtn.addEventListener("click", () => {
       card.innerHTML = `
         <h1>Hehehe 😌💖</h1>
         <p>
           Okay okay, I knew it 😏<br><br>
-          Happy Valentine’s Day, <b>Anandhuuu</b> 💕<br>
+          Happy Valentine’s Day,<br>
+          <b>Anandhuuu</b> 💕<br><br>
           You’re stuck with me now 😌💘
         </p>
       `;
