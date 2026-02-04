@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Be My Valentine 💖</title>
+  <title>Anandh 💖 Valentine</title>
+
   <style>
     body {
       margin: 0;
@@ -21,69 +22,85 @@
       border-radius: 20px;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 320px;
       position: relative;
     }
 
     h1 {
       color: #ff4d6d;
+      margin-bottom: 30px;
+    }
+
+    .btn-area {
+      position: relative;
+      height: 120px;
     }
 
     button {
-      padding: 12px 24px;
-      font-size: 18px;
+      padding: 12px 18px;
+      font-size: 16px;
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       cursor: pointer;
-      margin: 10px;
-      position: relative;
+      position: absolute;
+      transition: 0.15s;
+      white-space: nowrap;
     }
 
     #yes {
       background: #ff4d6d;
       color: white;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
     }
 
     #no {
       background: #adb5bd;
-      color: black;
-      position: absolute;
+      color: #000;
+      top: 0;
+      left: 0;
     }
 
+    /* hearts */
     .heart {
       position: fixed;
       bottom: -10px;
-      font-size: 20px;
+      font-size: 18px;
       animation: float 6s linear infinite;
     }
 
     @keyframes float {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh);
-        opacity: 0;
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100vh); opacity: 0; }
     }
   </style>
 </head>
+
 <body>
 
   <div class="card">
-    <h1>Will you be my Valentine? 💌</h1>
-    <button id="yes" onclick="yesClicked()">Yes 💖</button>
-    <button id="no">No 🙃</button>
+    <h1>Will you be my Valentine, Anandhuuu? 💌</h1>
+
+    <div class="btn-area">
+      <button id="no">🏃‍♂️ NO Anandhuuu ✋</button>
+      <button id="yes" onclick="yesClicked()">Yes 💖</button>
+    </div>
   </div>
 
 <script>
   const noBtn = document.getElementById("no");
+  const area = document.querySelector(".btn-area");
 
-  noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+  noBtn.addEventListener("mouseenter", () => {
+    const maxX = area.clientWidth - noBtn.offsetWidth;
+    const maxY = area.clientHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
   });
 
   function yesClicked() {
@@ -93,26 +110,28 @@
         align-items:center;
         justify-content:center;
         height:100vh;
-        font-size:32px;
-        color:white;
         background:#ff4d6d;
+        color:white;
+        font-size:30px;
         text-align:center;">
-        YAYYY 💕💍<br>
-        Best decision ever 😍
+        YAYYY 🥰💖<br>
+        Happy Valentine’s Day, Anandhuu!<br><br>
+        — Jershini 💌
       </div>
     `;
   }
 
+  // floating hearts
   setInterval(() => {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "💖";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+    heart.style.fontSize = (Math.random() * 15 + 10) + "px";
     document.body.appendChild(heart);
 
     setTimeout(() => heart.remove(), 6000);
-  }, 300);
+  }, 350);
 </script>
 
 </body>
