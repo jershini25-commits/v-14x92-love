@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Valentine 💖</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: "Comic Sans MS", cursive;
-    }
 
+  <style>
     body {
       margin: 0;
       height: 100vh;
-      overflow: hidden;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
     }
 
     .card {
@@ -24,103 +21,127 @@
       padding: 40px;
       border-radius: 25px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
       z-index: 2;
     }
 
     h1 {
       color: #ff4d6d;
-      font-size: 32px;
+      margin-bottom: 30px;
     }
 
-    button {
+    #yesBtn {
+      padding: 14px 26px;
       border: none;
-      padding: 15px 30px;
-      font-size: 18px;
       border-radius: 30px;
+      background: #ff4d6d;
+      color: white;
+      font-size: 16px;
       cursor: pointer;
     }
 
-    #yes {
-      background: #ff4d6d;
-      color: white;
-      margin-top: 20px;
-    }
+    /* --- NO CARTOON CHARACTER --- */
 
-    /* RUNNING NO BUTTON */
-    #no {
+    #noCharacter {
       position: fixed;
-      left: 50%;
-      top: 70%;
-      background: #999;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      animation: wiggle 0.4s infinite;
+      left: 60%;
+      top: 60%;
+      z-index: 9999;
+      transition: left 0.4s ease, top 0.4s ease;
     }
 
-    @keyframes wiggle {
-      0% { transform: rotate(-3deg); }
-      50% { transform: rotate(3deg); }
-      100% { transform: rotate(-3deg); }
+    #noBtn {
+      background: #9e9e9e;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 22px;
+      font-size: 15px;
+      cursor: pointer;
     }
 
+    /* hands */
+    .hand {
+      width: 10px;
+      height: 10px;
+      background: #777;
+      border-radius: 50%;
+      position: absolute;
+      top: 18px;
+    }
+
+    .hand.left { left: -14px; }
+    .hand.right { right: -14px; }
+
+    /* legs */
     .legs {
+      display: flex;
+      justify-content: space-between;
+      width: 40px;
+      margin: auto;
+    }
+
+    .leg {
+      width: 6px;
+      height: 16px;
+      background: #555;
+      border-radius: 4px;
       animation: run 0.3s infinite alternate;
     }
 
-    @keyframes run {
-      from { transform: translateY(0); }
-      to { transform: translateY(5px); }
+    .leg.right {
+      animation-delay: 0.15s;
     }
 
-    .hidden {
-      display: none;
+    @keyframes run {
+      from { transform: rotate(15deg); }
+      to { transform: rotate(-15deg); }
     }
   </style>
 </head>
+
 <body>
 
-  <div class="card" id="question">
-    <h1>Will you be my Valentine,<br> Anandhuuu? 💌</h1>
-    <button id="yes">Yes 💖</button>
+  <div class="card" id="card">
+    <h1>Will you be my Valentine,<br>Anandhuuu? 💌</h1>
+    <button id="yesBtn">Yes 💖</button>
   </div>
 
-  <button id="no">
-    🙅‍♂️ NO Anandhuuu
-    <span class="legs">🏃‍♂️🦵</span>
-  </button>
+  <!-- NO Cartoon -->
+  <div id="noCharacter">
+    <div class="hand left"></div>
+    <div class="hand right"></div>
 
-  <div class="card hidden" id="result">
-    <h1>Hehehe 😌💖</h1>
-    <p>
-      Okay okay, I knew it 😏<br><br>
-      Happy Valentine’s Day, Anandhuuu 💕<br>
-      You’re stuck with me now 😌💘
-    </p>
+    <button id="noBtn">NO Anandhuuu 🙅‍♂️</button>
+
+    <div class="legs">
+      <div class="leg left"></div>
+      <div class="leg right"></div>
+    </div>
   </div>
 
   <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const question = document.getElementById("question");
-    const result = document.getElementById("result");
+    const noChar = document.getElementById("noCharacter");
+    const yesBtn = document.getElementById("yesBtn");
+    const card = document.getElementById("card");
 
-    noBtn.addEventListener("mouseover", moveButton);
-    noBtn.addEventListener("click", moveButton);
-
-    function moveButton() {
+    noChar.addEventListener("mouseenter", () => {
       const x = Math.random() * (window.innerWidth - 150);
-      const y = Math.random() * (window.innerHeight - 80);
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-    }
+      const y = Math.random() * (window.innerHeight - 150);
+
+      noChar.style.left = `${x}px`;
+      noChar.style.top = `${y}px`;
+    });
 
     yesBtn.addEventListener("click", () => {
-      question.classList.add("hidden");
-      noBtn.classList.add("hidden");
-      result.classList.remove("hidden");
+      card.innerHTML = `
+        <h1>Hehehe 😌💖</h1>
+        <p>
+          Okay okay, I knew it 😏<br><br>
+          Happy Valentine’s Day, <b>Anandhuuu</b> 💕<br>
+          You’re stuck with me now 😌💘
+        </p>
+      `;
     });
   </script>
 
