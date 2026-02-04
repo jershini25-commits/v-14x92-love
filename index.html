@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Anandh 💖 Valentine</title>
+  <title>Anandhuuu 💖</title>
 
   <style>
     body {
@@ -19,47 +19,50 @@
     .card {
       background: white;
       padding: 40px;
-      border-radius: 20px;
+      border-radius: 22px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      width: 320px;
-      position: relative;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+      width: 340px;
     }
 
     h1 {
       color: #ff4d6d;
-      margin-bottom: 30px;
-    }
-
-    .btn-area {
-      position: relative;
-      height: 120px;
-    }
-
-    button {
-      padding: 12px 18px;
-      font-size: 16px;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      position: absolute;
-      transition: 0.15s;
-      white-space: nowrap;
+      margin-bottom: 40px;
     }
 
     #yes {
+      padding: 14px 26px;
+      font-size: 18px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
       background: #ff4d6d;
       color: white;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 0;
     }
 
+    /* RUNNING NO BUTTON */
     #no {
+      position: fixed;
+      padding: 12px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
       background: #adb5bd;
       color: #000;
-      top: 0;
-      left: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: wiggle 0.3s infinite alternate;
+    }
+
+    @keyframes wiggle {
+      from { transform: rotate(-2deg); }
+      to { transform: rotate(2deg); }
+    }
+
+    .limb {
+      font-size: 18px;
     }
 
     /* hearts */
@@ -81,41 +84,51 @@
 
   <div class="card">
     <h1>Will you be my Valentine, Anandhuuu? 💌</h1>
-
-    <div class="btn-area">
-      <button id="no">🏃‍♂️ NO Anandhuuu ✋</button>
-      <button id="yes" onclick="yesClicked()">Yes 💖</button>
-    </div>
+    <button id="yes" onclick="yesClicked()">Yes 💖</button>
   </div>
+
+  <!-- RUNNING NO BUTTON -->
+  <button id="no">
+    <span class="limb">✋</span>
+    🏃 NO Anandhuuu
+    <span class="limb">🦵🦵</span>
+  </button>
 
 <script>
   const noBtn = document.getElementById("no");
-  const area = document.querySelector(".btn-area");
 
-  noBtn.addEventListener("mouseenter", () => {
-    const maxX = area.clientWidth - noBtn.offsetWidth;
-    const maxY = area.clientHeight - noBtn.offsetHeight;
+  function moveNoButton() {
+    const padding = 20;
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-  });
+  }
+
+  noBtn.addEventListener("mouseenter", moveNoButton);
+  noBtn.addEventListener("click", moveNoButton);
 
   function yesClicked() {
     document.body.innerHTML = `
       <div style="
         display:flex;
+        flex-direction:column;
         align-items:center;
         justify-content:center;
         height:100vh;
         background:#ff4d6d;
         color:white;
-        font-size:30px;
-        text-align:center;">
-        YAYYY 🥰💖<br>
-        Happy Valentine’s Day, Anandhuu!<br><br>
+        font-size:28px;
+        text-align:center;
+        padding:20px;">
+        Okay okay 😌<br><br>
+        You tried very hard to say NO…<br>
+        But 💖<br><br>
+        <strong>You’re my Valentine, Anandhuuu</strong><br><br>
         — Jershini 💌
       </div>
     `;
@@ -127,7 +140,7 @@
     heart.className = "heart";
     heart.innerHTML = "💖";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 15 + 10) + "px";
+    heart.style.fontSize = (Math.random() * 15 + 12) + "px";
     document.body.appendChild(heart);
 
     setTimeout(() => heart.remove(), 6000);
