@@ -17,17 +17,19 @@ body{
     overflow:hidden;
 }
 
+/* CARD */
 .card{
     background:#f6e6ea;
     padding:40px;
     border-radius:25px;
     text-align:center;
     width:360px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    z-index:2;
 }
 
 h1,h2{ color:#ff4f87; }
-p{ color:#cc5a7a; }
+p{ color:#cc5a7a; min-height:28px;}
 
 button{
     border:none;
@@ -52,6 +54,39 @@ button:hover{ transform:scale(1.05); }
     border:2px solid #ff4f87;
 }
 
+/* FLOATING HEARTS */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation:floatUp 6s linear infinite;
+    opacity:.7;
+}
+
+@keyframes floatUp{
+    to{
+        transform:translateY(-110vh);
+        opacity:0;
+    }
+}
+
+/* CONFETTI */
+.confetti{
+    position:fixed;
+    width:10px;
+    height:10px;
+    background:red;
+    top:-10px;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(720deg);
+    }
+}
+
+/* CELEBRATION SCREEN */
 .celebration{
     position:absolute;
     width:100%;
@@ -69,124 +104,150 @@ button:hover{ transform:scale(1.05); }
 
 <body>
 
-<div class="card" id="mainCard">
-    <h1>Anandhu, Will You Be My Valentine? 💖</h1>
-    <p id="message">I've been waiting for the perfect moment...</p>
-    <button id="yesBtn" onclick="accepted()">Yes 💕</button>
+<div class="card">
+<h1>Anandhu, Will You Be My Valentine? 💖</h1>
+<p id="message"></p>
+<button id="yesBtn" onclick="accepted()">Yes 💕</button>
 </div>
 
 <button id="noBtn">No 😢</button>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const message = document.getElementById("message");
+/* ---------------- TYPING EFFECT ---------------- */
+const text =
+"I've been waiting for the perfect moment to ask you...";
+let i=0;
+const message=document.getElementById("message");
 
-const margin = 20;
+function typeText(){
+ if(i<text.length){
+   message.innerHTML+=text.charAt(i);
+   i++;
+   setTimeout(typeText,40);
+ }
+}
+typeText();
 
-/* Funny NO messages */
-const noMessages = [
+/* ---------------- RUNNING NO BUTTON ---------------- */
+const noBtn=document.getElementById("noBtn");
+const margin=20;
+
+const noMessages=[
 "Why? 🥺",
 "Just think again…",
 "I know your secrets 😏",
 "I will tell everyone 👀",
 "You can't escape destiny 💘",
-"Okay okay... last chance 😭"
+"Okay last chance 😭"
 ];
 
-let noCount = 0;
+let noCount=0;
 
-/* place initially */
 moveButtonSafe();
 
-noBtn.addEventListener("mouseenter", handleNo);
-noBtn.addEventListener("touchstart", handleNo);
-window.addEventListener("resize", moveButtonSafe);
+noBtn.addEventListener("mouseenter",handleNo);
+noBtn.addEventListener("touchstart",handleNo);
+window.addEventListener("resize",moveButtonSafe);
 
 function handleNo(){
-    moveButtonSafe();
-
-    message.innerText =
-        noMessages[noCount % noMessages.length];
-
-    noCount++;
+ moveButtonSafe();
+ message.innerText=noMessages[noCount%noMessages.length];
+ noCount++;
 }
 
 function moveButtonSafe(){
-    const w = noBtn.offsetWidth;
-    const h = noBtn.offsetHeight;
+ const w=noBtn.offsetWidth;
+ const h=noBtn.offsetHeight;
 
-    const maxX = window.innerWidth - w - margin;
-    const maxY = window.innerHeight - h - margin;
+ const maxX=window.innerWidth-w-margin;
+ const maxY=window.innerHeight-h-margin;
 
-    const x = Math.random()*(maxX-margin)+margin;
-    const y = Math.random()*(maxY-margin)+margin;
+ const x=Math.random()*(maxX-margin)+margin;
+ const y=Math.random()*(maxY-margin)+margin;
 
-    noBtn.style.left = x+"px";
-    noBtn.style.top = y+"px";
+ noBtn.style.left=x+"px";
+ noBtn.style.top=y+"px";
 }
 
-/* YES CLICK */
+/* ---------------- FLOATING HEARTS ---------------- */
+setInterval(()=>{
+ const heart=document.createElement("div");
+ heart.className="heart";
+ heart.innerHTML="❤️";
+ heart.style.left=Math.random()*100+"vw";
+ heart.style.fontSize=(15+Math.random()*20)+"px";
+ heart.style.animationDuration=(4+Math.random()*3)+"s";
+ document.body.appendChild(heart);
+
+ setTimeout(()=>heart.remove(),7000);
+},600);
+
+/* ---------------- YES CLICK ---------------- */
 function accepted(){
-
-    noBtn.style.display="none";
-
-    document.body.innerHTML = `
-    <div class="celebration">
-        <h1 style="font-size:60px;">Yay! 🎉</h1>
-        <p style="font-size:26px;max-width:600px;">
-        Anandhu, you just made this Valentine's Day absolutely perfect!
-        Get ready for an amazing day together! ❤️
-        </p>
-    </div>
-    `;
-
-    /* after 3 seconds ask gift question */
-    setTimeout(showGiftQuestion,3000);
+ noBtn.style.display="none";
+ startCelebration();
 }
 
+/* CONFETTI */
+function startCelebration(){
+
+ document.body.innerHTML=`
+ <div class="celebration">
+   <h1 style="font-size:60px;">Yay! 🎉</h1>
+   <p style="font-size:26px;max-width:600px;">
+   Anandhu, you just made this Valentine's Day absolutely perfect!
+   Get ready for an amazing day together! ❤️
+   </p>
+ </div>`;
+
+ for(let i=0;i<120;i++){
+   const conf=document.createElement("div");
+   conf.className="confetti";
+   conf.style.left=Math.random()*100+"vw";
+   conf.style.background=
+     "hsl("+Math.random()*360+",100%,60%)";
+   conf.style.animationDuration=(3+Math.random()*3)+"s";
+   document.body.appendChild(conf);
+
+   setTimeout(()=>conf.remove(),6000);
+ }
+
+ setTimeout(showGiftQuestion,3500);
+}
+
+/* ---------------- GIFT QUESTION ---------------- */
 function showGiftQuestion(){
-    document.body.innerHTML = `
-    <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:linear-gradient(135deg,#1f6a73,#2b5876);
-    ">
-        <div class="card">
-            <h2>Do you want a Valentine gift? 🎁</h2>
+ document.body.innerHTML=`
+ <div style="height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#1f6a73,#2b5876);">
+   <div class="card">
+     <h2>Do you want a Valentine gift? 🎁</h2>
 
-            <button onclick="giftYes()" 
-            style="background:linear-gradient(45deg,#ff7eb3,#ff4f87);color:white;margin:10px;">
-            Yes 💝
-            </button>
+     <button onclick="giftYes()" style="background:linear-gradient(45deg,#ff7eb3,#ff4f87);color:white;margin:10px;">
+     Yes 💝
+     </button>
 
-            <button onclick="giftNo()" 
-            style="background:white;color:#ff4f87;border:2px solid #ff4f87;margin:10px;">
-            No 😊
-            </button>
-        </div>
-    </div>`;
+     <button onclick="giftNo()" style="background:white;color:#ff4f87;border:2px solid #ff4f87;margin:10px;">
+     No 😊
+     </button>
+   </div>
+ </div>`;
 }
 
-/* FINAL RESPONSES */
-
+/* FINAL ANSWERS */
 function giftYes(){
-document.body.innerHTML=`
-<div class="celebration">
-<h2>Already I am the gift ❤️</h2>
-<p style="font-size:24px;">Why do you need any other gifts? 😌✨</p>
-</div>`;
+ document.body.innerHTML=`
+ <div class="celebration">
+ <h2>Already I am the gift ❤️</h2>
+ <p style="font-size:24px;">Why do you need any other gifts? 😌✨</p>
+ </div>`;
 }
 
 function giftNo(){
-document.body.innerHTML=`
-<div class="celebration">
-<h2>Aww… 🥰</h2>
-<p style="font-size:24px;">
-You already knew I am the perfect gift 💕
-</p>
-</div>`;
+ document.body.innerHTML=`
+ <div class="celebration">
+ <h2>Aww… 🥰</h2>
+ <p style="font-size:24px;">You already knew I am the perfect gift 💕</p>
+ </div>`;
 }
 </script>
 
