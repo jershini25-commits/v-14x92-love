@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Be My Valentine ❤️</title>
+<title>Valentine Surprise ❤️</title>
 
 <style>
 body{
     margin:0;
     height:100vh;
+    font-family:Arial, sans-serif;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:Arial, sans-serif;
     background:linear-gradient(135deg,#1f6a73,#2b5876);
     overflow:hidden;
 }
@@ -26,13 +26,8 @@ body{
     box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
 
-h1,h2{
-    color:#ff4f87;
-}
-
-p{
-    color:#cc5a7a;
-}
+h1,h2{ color:#ff4f87; }
+p{ color:#cc5a7a; }
 
 button{
     border:none;
@@ -40,17 +35,14 @@ button{
     font-size:18px;
     border-radius:30px;
     cursor:pointer;
-    transition:0.3s;
+    transition:.3s;
 }
 
-button:hover{
-    transform:scale(1.05);
-}
+button:hover{ transform:scale(1.05); }
 
 #yesBtn{
     background:linear-gradient(45deg,#ff7eb3,#ff4f87);
     color:white;
-    margin-top:20px;
 }
 
 #noBtn{
@@ -59,6 +51,19 @@ button:hover{
     color:#ff4f87;
     border:2px solid #ff4f87;
 }
+
+.celebration{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#ff7eb3,#ff4f87);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
 </style>
 </head>
 
@@ -66,7 +71,7 @@ button:hover{
 
 <div class="card" id="mainCard">
     <h1>Anandhu, Will You Be My Valentine? 💖</h1>
-    <p>I’ve been waiting for the perfect moment to ask you this...</p>
+    <p id="message">I've been waiting for the perfect moment...</p>
     <button id="yesBtn" onclick="accepted()">Yes 💕</button>
 </div>
 
@@ -74,38 +79,72 @@ button:hover{
 
 <script>
 const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+
 const margin = 20;
 
-/* initial placement */
+/* Funny NO messages */
+const noMessages = [
+"Why? 🥺",
+"Just think again…",
+"I know your secrets 😏",
+"I will tell everyone 👀",
+"You can't escape destiny 💘",
+"Okay okay... last chance 😭"
+];
+
+let noCount = 0;
+
+/* place initially */
 moveButtonSafe();
 
-/* run away events */
-noBtn.addEventListener("mouseenter", moveButtonSafe);
-noBtn.addEventListener("touchstart", moveButtonSafe);
+noBtn.addEventListener("mouseenter", handleNo);
+noBtn.addEventListener("touchstart", handleNo);
 window.addEventListener("resize", moveButtonSafe);
 
-function moveButtonSafe(){
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
+function handleNo(){
+    moveButtonSafe();
 
-    const maxX = window.innerWidth - btnWidth - margin;
-    const maxY = window.innerHeight - btnHeight - margin;
+    message.innerText =
+        noMessages[noCount % noMessages.length];
 
-    const minX = margin;
-    const minY = margin;
-
-    const randomX = Math.random()*(maxX-minX)+minX;
-    const randomY = Math.random()*(maxY-minY)+minY;
-
-    noBtn.style.left = randomX+"px";
-    noBtn.style.top = randomY+"px";
+    noCount++;
 }
 
-/* FIRST YES CLICK */
+function moveButtonSafe(){
+    const w = noBtn.offsetWidth;
+    const h = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - w - margin;
+    const maxY = window.innerHeight - h - margin;
+
+    const x = Math.random()*(maxX-margin)+margin;
+    const y = Math.random()*(maxY-margin)+margin;
+
+    noBtn.style.left = x+"px";
+    noBtn.style.top = y+"px";
+}
+
+/* YES CLICK */
 function accepted(){
 
     noBtn.style.display="none";
 
+    document.body.innerHTML = `
+    <div class="celebration">
+        <h1 style="font-size:60px;">Yay! 🎉</h1>
+        <p style="font-size:26px;max-width:600px;">
+        Anandhu, you just made this Valentine's Day absolutely perfect!
+        Get ready for an amazing day together! ❤️
+        </p>
+    </div>
+    `;
+
+    /* after 3 seconds ask gift question */
+    setTimeout(showGiftQuestion,3000);
+}
+
+function showGiftQuestion(){
     document.body.innerHTML = `
     <div style="
         height:100vh;
@@ -113,7 +152,6 @@ function accepted(){
         justify-content:center;
         align-items:center;
         background:linear-gradient(135deg,#1f6a73,#2b5876);
-        font-family:Arial;
     ">
         <div class="card">
             <h2>Do you want a Valentine gift? 🎁</h2>
@@ -128,45 +166,27 @@ function accepted(){
             No 😊
             </button>
         </div>
-    </div>
-    `;
+    </div>`;
 }
 
-/* SECOND QUESTION ANSWERS */
+/* FINAL RESPONSES */
 
 function giftYes(){
-    document.body.innerHTML = `
-    <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:linear-gradient(135deg,#1f6a73,#2b5876);
-        font-family:Arial;
-        text-align:center;
-        color:white;
-        font-size:26px;
-        padding:20px;">
-        Already I am the gift ❤️<br>
-        Why do you need any other gifts? 😌✨
-    </div>`;
+document.body.innerHTML=`
+<div class="celebration">
+<h2>Already I am the gift ❤️</h2>
+<p style="font-size:24px;">Why do you need any other gifts? 😌✨</p>
+</div>`;
 }
 
 function giftNo(){
-    document.body.innerHTML = `
-    <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:linear-gradient(135deg,#1f6a73,#2b5876);
-        font-family:Arial;
-        text-align:center;
-        color:white;
-        font-size:26px;
-        padding:20px;">
-        Aww… you already knew I am the perfect gift 💕🥰
-    </div>`;
+document.body.innerHTML=`
+<div class="celebration">
+<h2>Aww… 🥰</h2>
+<p style="font-size:24px;">
+You already knew I am the perfect gift 💕
+</p>
+</div>`;
 }
 </script>
 
